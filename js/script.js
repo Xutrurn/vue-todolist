@@ -29,7 +29,10 @@ var app = new Vue({
     restoreTodo(index) {
       this.todos.push(this.todosDelete[index]);
       this.todosDelete.splice(index, 1);
-    }
+    },
+    deleteForever(index) {
+      this.todosDelete.splice(index, 1);
+    },
   }
 });
 
