@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+  <title>Todo App</title>
+</head>
+
+<body>
+
+
+  <div id="app" class="container">
+
+    <!-- Logo -->
+    <div class="logo">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTliZalm9qty6Xo8mxVl0wE19qF1jFPHE8HQ&usqp=CAU" alt="">
+    </div>
+
+    <!-- Nuovo todo -->
+    <div class="new-todo">
+      <input type="text" @keyup.enter="addTodo" v-model="newTodo" placeholder="Inserisci una cosa da fare">
+      <button @click="addTodo">Inserisci</button>
+    </div>
+
+    <!-- Lista todo -->
+    <div class="todos-container">
+      <ul v-if="todos.length > 0">
+        <li class="todo" v-for="(todo,index) in todos">{{ index+1 + ' : ' + todo }}<i class="fas fa-trash" @click="deleteTodo(index)" :title="'Elimina ToDo'+' '+index"></i></li>
+      </ul>
+      <h3 v-else>Lista vuota</h3>
+    </div>
+
+    <!-- Lista todo eliminati-->
+    <div class="todos-container">
+      <ul v-if="todosDelete.length > 0">
+        <li class="todo" v-for="(todo,index) in todosDelete">{{ index+1 + ' : ' + todo }}<i class="fas fa-trash-restore" @click="restoreTodo(index)" :title="'Ripristina ToDo'+' '+index"></i><i class="fas fa-trash" @click="deleteForever(index)" :title="'Elimina definitivamente ToDo'+' '+index"></i></li>
+      </ul>
+      <h3 v-else>Lista vuota</h3>
+
+    </div>
+
+  </div>
+
+  <script src="js/script.js" charset="utf-8"></script>
+</body>
+
+</html>
