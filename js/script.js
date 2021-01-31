@@ -5,34 +5,50 @@ var app = new Vue({
   data: {
     newTodo: '',
     todos: [
-      'Todo Uno',
-      'Todo Due',
-      'Todo Tre',
-      'Todo Quattro'
+      'Cosa da fare Uno',
+      'Cosa da fare Due',
+      'Cosa da fare Tre',
+      'Cosa da fare Quattro'
     ],
-    todosDelete: []
+    todosDelete: [],
+    index: null,
+    edit: null
   },
   methods: {
     addTodo() {
       if (this.newTodo.length < 4) {
-        alert('Inserisci una cosa dare con più di 3 caratteri');
+        alert('Inserisci una cosa da fare con più di 3 caratteri');
       } else {
-        this.todos.push(this.newTodo);
+        this.todos.push(this.newTodo.charAt(0).toUpperCase() + this.newTodo.slice(1).toLowerCase());
         this.newTodo = '';
       }
     },
     deleteTodo(index) {
       this.todosDelete.push(this.todos[index]);
-      alert('Hai eliminato il ToDo : ' + this.todos[index]);
+      // alert('Hai eliminato : ' + this.todos[index]);
       this.todos.splice(index, 1);
+    },
+    deleteTodoAll() {
+      this.todos.forEach((element) => {
+        this.todosDelete.push(element)
+      });
+      this.todos = [];
     },
     restoreTodo(index) {
       this.todos.push(this.todosDelete[index]);
       this.todosDelete.splice(index, 1);
     },
-    deleteForever(index) {
+    deleteForeverOne(index) {
       this.todosDelete.splice(index, 1);
     },
+    deleteForeverAll(index) {
+      this.todosDelete.splice(0);
+    },
+    editTodo(index) {
+      this.edit = prompt('Modifica cosa da fare');
+      this.edit = this.edit.charAt(0).toUpperCase() + this.edit.substr(1).toLowerCase();
+      this.todos.splice(index, 1, this.edit);
+    }
   }
 });
 

@@ -1,54 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- Local CSS -->
   <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
-  <title>Todo App</title>
+
+  <!-- Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+
+  <title>Test</title>
 </head>
 
 <body>
-
-
-  <div id="app" class="container">
+  <div id="app" class="container h-100">
+    <!-- Content here -->
 
     <!-- Logo -->
-    <div class="logo">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTliZalm9qty6Xo8mxVl0wE19qF1jFPHE8HQ&usqp=CAU" alt="">
+    <div class="row mb-5 mt-5 justify-content-center align-items-center">
+      <h1>Cose da fare App</h1>
     </div>
 
-    <!-- Nuovo todo -->
-    <div class="new-todo">
-      <input type="text" @keyup.enter="addTodo" v-model="newTodo" placeholder="Inserisci una cosa da fare">
-      <button @click="addTodo">Inserisci</button>
+    <!-- Aggiungi un Nuovo todo -->
+    <div class="row-12 mb-5 justify-content-center align-items-center">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" @keyup.enter="addTodo" v-model="newTodo" placeholder="Aggiungi una cosa da fare" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" @click="addTodo" type="button">Aggiungi</button>
+        </div>
+      </div>
     </div>
 
     <!-- Lista todo -->
-    <div class="todos-container">
-      <ul v-if="todos.length > 0">
-        <li class="todo" v-for="(todo,index) in todos">{{ index+1 + ' : ' + todo }}<i class="fas fa-trash" @click="deleteTodo(index)" :title="'Elimina ToDo'+' '+index"></i></li>
+    <div class="row-12 mb-5 justify-content-center align-items-center">
+      <ul v-if="todos.length > 0" class="list-group list-group-flush">
+        <li class="list-group-item" v-for="(todo,index) in todos">
+          <div class="d-flex">
+            <div class="mr-auto p-2">{{ index+1 + ' : ' + todo }}</div>
+
+            <div class="p-2 aquamarine"><i class="fas fa-edit" @click="editTodo(index)" :title="'Modifica Cosa da fare'+' '+index"></i></div>
+
+            <div class="p-2 coral"><i class="fas fa-trash" @click="deleteTodo(index)" :title="'Elimina Cosa da fare'+' '+index"></i></div>
+          </div>
+        </li>
       </ul>
-      <h3 v-else>Lista vuota</h3>
+      <h6 v-else>Cose da fare : Lista vuota</h6>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div class="d-flex">
+            <div class="mr-auto p-2">Sposta tutto nel cestino</div>
+            <div class="p-2 coral"><i class="fas fa-trash" @click="deleteTodoAll" :title="'Sposta tutto nel cestino'"></i></div>
+          </div>
+        </li>
+      </ul>
     </div>
 
-    <!-- Lista todo eliminati-->
-    <div class="todos-container">
-      <ul v-if="todosDelete.length > 0">
-        <li class="todo" v-for="(todo,index) in todosDelete">{{ index+1 + ' : ' + todo }}<i class="fas fa-trash-restore" @click="restoreTodo(index)" :title="'Ripristina ToDo'+' '+index"></i><i class="fas fa-trash" @click="deleteForever(index)" :title="'Elimina definitivamente ToDo'+' '+index"></i></li>
+    <!-- Lista todo eliminati -->
+    <div class="row-12 justify-content-center align-items-center">
+      <ul v-if="todosDelete.length > 0" class="list-group list-group-flush">
+        <li class="list-group-item" v-for="(todo,index) in todosDelete">
+          <div class="d-flex">
+            <div class="mr-auto p-2">{{ index+1 + ' : ' + todo }}</div>
+            <div class="p-2 aquamarine"><i class="fas fa-trash-restore" @click="restoreTodo(index)" :title="'Ripristina Cosa da fare'+' '+index"></i></div>
+            <div class="p-2 coral"><i class="fas fa-trash" @click="deleteForeverOne(index)" :title="'Elimina definitivamente Cosa da fare'+' '+index"></i></div>
+          </div>
+        </li>
       </ul>
-      <h3 v-else>Lista vuota</h3>
+      <h6 v-else>Cose da eliminare : Lista vuota</h6>
 
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div class="d-flex">
+            <div class="mr-auto p-2">Elimina tutto per sempre</div>
+            <div class="p-2 coral"><i class="fas fa-trash" @click="deleteForeverAll" :title="'Elimina tutto per sempre'"></i></div>
+          </div>
+        </li>
+      </ul>
     </div>
+
+
+
+
+
+
+
+
+
 
   </div>
-
+  <!-- Optional JavaScript -->
   <script src="js/script.js" charset="utf-8"></script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
